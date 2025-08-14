@@ -22,7 +22,7 @@ The patch generation follows the **Expectation Over Transformation (EOT)** frame
 - **Projective transformations:** perspective changes for realism  
 - **Appearance transformations:** brightness, contrast, noise
 
-## 🔄 Adversarial Patch Generation Pipeline (EOT-based)
+##  Adversarial Patch Generation Pipeline (EOT-based)
 
 ![Patch Generation Pipeline](patch_pipeline.png)
 
