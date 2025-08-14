@@ -20,7 +20,9 @@ The patch generation follows the **Expectation Over Transformation (EOT)** frame
 
 - **Spatial transformations:** scaling, rotations, translations  
 - **Projective transformations:** perspective changes for realism  
-- **Appearance transformations:** brightness, contrast, noise  
+- **Appearance transformations:** brightness, contrast, noise
+
+- ![Patch Pipeline](patch_pipeline.png)
 
 ### **Pipeline Steps**
 1. **Input Images** — From CARLA-GEAR  
