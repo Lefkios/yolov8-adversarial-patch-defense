@@ -79,13 +79,14 @@ The adversarial objective in this project was to **increase the number of detect
 
 The loss function was adapted from the PatchAttackTool method, but instead of minimizing the confidence for the correct class (as in targeted attacks), it **maximizes the objectness scores** of detections:
 
-\[
+$$
 \mathcal{L} = -\sum_{i=1}^{N} \log(s_i + \epsilon)
-\]
+$$
 
 Where:
 - \( s_i \) = objectness confidence score for the *i*-th detection
 - \( \epsilon \) = small constant for numerical stability
+
 
 **Goal:** Push the detector to report spurious detections, degrading reliability in autonomous driving scenarios.
 
