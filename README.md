@@ -22,15 +22,59 @@ The patch generation follows the **Expectation Over Transformation (EOT)** frame
 - **Projective transformations:** perspective changes for realism  
 - **Appearance transformations:** brightness, contrast, noise
 
-- ![Patch Pipeline](patch_pipeline.png)
+## 🔄 Adversarial Patch Generation Pipeline (EOT-based)
 
-### **Pipeline Steps**
-1. **Input Images** — From CARLA-GEAR  
-2. **Patch Initialization** — Random or pretrained start  
-3. **EOT Transformations** — Spatial, projective, and appearance changes  
-4. **Patch Application** — Overlay on billboards  
-5. **Detection & Loss** — YOLOv8 detects objects in patched images  
-6. **Optimization** — Backpropagation updates the patch to maximize detection degradation  
+![Patch Generation Pipeline](patch_pipeline.png)
+
+1. **Patch Initialization**  
+   - Start with a randomly initialized patch or a pre-trained design.
+
+2. **Appearance Transformations** *(applied to patch)*  
+   - Adjust brightness and contrast  
+   - Add Gaussian noise  
+   - Apply color changes to improve robustness
+
+3. **Input Images**  
+   - Source: dataset images (e.g., CARLA-GEAR driving scenarios).
+
+4. **Scene-Specific Transformations (Expectation Over Transformation - EOT)**  
+   - **Spatial Transformations**: random scaling, rotation, and translation  
+   - **Projective Transformations**: perspective warping to match billboard angles
+
+5. **Add Patch to Scene**  
+   - Overlay transformed patch onto scene elements (billboards in this project).
+
+6. **Patched Images → Object Detector**  
+   - YOLOv8 processes patched images.
+
+7. **Detection Output**  
+   - Bounding boxes and class predictions generated.
+
+8. **Detection Loss Computation**  
+   - Compare predictions to ground truth  
+   - Loss is used to guide optimization.
+
+9. **Optimization Step**  
+   - Backpropagation updates the patch to **maximize detection errors** (false positives/negatives
+
+## Method Adaptation
+
+This implementation builds on the **Expectation Over Transformation (EOT)** patch generation approach introduced in:
+
+> M. Delbracio, B. O’Neal, A. Kirillov, and P. Milanfar. *Adversarial patches for physical-world attacks on object detection: a study on CARLA and robustness*. arXiv preprint arXiv:2201.01850, 2022.
+
+**Key differences from the original method:**
+- **Original PatchAttackTool**  
+  - Designed primarily for **semantic segmentation** tasks  
+  - Compares model predictions to **ground truth segmentation labels** to compute loss  
+
+- **Our Adaptation**  
+  - Designed for **object detection** (YOLOv8)  
+  - Operates **without access to ground truth labels**  
+  - Uses the **detector’s own predictions** (bounding boxes + confidence scores)  
+  - Computes an **adversarial loss** that:  
+    - Suppresses the probability of the correct class  
+    - Or induces a **targeted misclassification**
 
 ---
 
